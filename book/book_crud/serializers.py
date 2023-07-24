@@ -17,7 +17,7 @@ class BookSerializer(serializers.ModelSerializer):
         return value
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.Serializers):
 
     def validate_length(value):
         an_integer = value
@@ -49,3 +49,4 @@ class UserSerializer(serializers.ModelSerializer):
             return False
 
 
+    
