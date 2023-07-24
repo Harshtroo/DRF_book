@@ -9,3 +9,12 @@ class Book(models.Model):
 
     def __str__(self):
         return self.name
+
+class User(models.Model):
+    username = models.CharField(max_length=50,unique=True)
+    email = models.EmailField()
+    password = models.CharField(max_length = 10)
+    phone_number = models.IntegerField(max_length =10)
+
+    def __str__(self):
+        return self.username
