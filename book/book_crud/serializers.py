@@ -17,7 +17,7 @@ class BookSerializer(serializers.ModelSerializer):
         return value
 
 
-class UserSerializer(serializers.Serializers):
+class UserSerializer(serializers.Serializer):
 
     def validate_length(value):
         an_integer = value
@@ -28,11 +28,13 @@ class UserSerializer(serializers.Serializers):
                 _('phone number is above 10 digits')
             )
 
+    username = serializers.CharField(max_length=50)
     email = serializers.EmailField()
     password = serializers.CharField(style={"input_type" : "password"})
     phone_number = serializers.RegexField("[0-9]{10}",validators=[validate_length])
 
-
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
     class Meta:
         model = User
         fields = ["username","email","password","phone_number"]
@@ -42,7 +44,7 @@ class UserSerializer(serializers.Serializers):
                 fields=["username","email"]
             )
         ]
-    username = serializers.CharField(max_length=50)
+
     def validate_email_address(email):
         if not re.search(r"^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$", email):
             print(f"The email address {email} is not valid")

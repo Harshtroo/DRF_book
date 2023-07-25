@@ -1,0 +1,71 @@
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<section class="h-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3">
+          <div class="card-body p-4 p-md-5">
+            <div class="form-outline datepicker">
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" align="center">Create User</h3>
+
+                <form class="px-md-2" method="POST"  id="form_2">
+                    {% csrf_token %}
+
+                    <div class="form-outline mb-4">
+                      <div class="form-outline datepicker">
+                        <label class="form-label">Username:</label>
+                        <input type="text" id="username" name="username">
+                      </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <div class="form-outline datepicker">
+                        <label class="form-label">Email:</label>
+                        <input type="email" id="email" name="email">
+                      </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <div class="form-outline datepicker">
+                        <label class="form-label">Password:</label>
+                        <input type="password" id="password" name="password">
+                      </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                      <div class="form-outline datepicker">
+                            <label class="form-label">Phone number:</label>
+                        <input type="password" id="phoneno" name="phoneno">
+                      </div>
+                    </div>
+                     <button type="submit" id="form1" value="Submit">Submit</button>
+                </form>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<script>
+var data= $('#form_2').serialize();
+var createUserURL = "http://127.0.0.1:8000/create_user/"
+$("#form1").on("click", function(){
+    $.ajax({
+            type: 'POST',
+            url: createUserURL,
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function (data) {
+                    console.log(data)
+            },
+            error: function (error){
+            }
+    })
+})
+</script>
+</body>

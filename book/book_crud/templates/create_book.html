@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<section class="h-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3">
+          <div class="card-body p-4 p-md-5">
+            <div class="form-outline datepicker">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" align="center">Create Book</h3>
+
+              <form class="px-md-2" method="POST" id="my-create-book">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Book name</label>
+                  <input type="text" class="form-control" id="book_name">
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="form-outline datepicker">
+                    <label class="form-label">Author name</label>
+                    <input type="text" class="form-control" id="author_book">
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label">publication_date</label>
+                  <input type="date" class="form-control" id="publication_date">
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label">rating</label>
+                  <input type="number" class="form-control" id="rating">
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg mb-1" >Submit</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<script src="{% static 'js/create_book.js' %}"></script>
+
+{% endblock %}

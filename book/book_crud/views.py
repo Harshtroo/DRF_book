@@ -4,7 +4,20 @@ from book_crud.serializers import BookSerializer,UserSerializer
 from rest_framework.decorators import api_view
 from book_crud.models import Book,User
 from rest_framework import status
+from django.shortcuts import render
 
+
+def home(request):
+    return render(request,"home.html")
+
+def get_book_list(request):
+    return render(request,"book_list.html")
+
+def get_create_book(request):
+    return  render(request,"create_book.html")
+
+def get_user_list(request):
+    return render(request,"user_list.html")
 
 @api_view(["POST"])
 def create_book(request):
