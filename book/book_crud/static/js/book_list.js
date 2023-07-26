@@ -12,9 +12,9 @@ var callBack = function (data) {
                                 <td scope="row">${data[i].author}</td>
                                 <td scope="row">${data[i].publication_date}</td>
                                 <td scope="row">${data[i].rating}</td>
-                                <td><button type="button" class="btn btn-primary" id="bookbtn_${data[i].id}" onclick="bookEdit()">Edit</button></td>
+                                <td><a type="button" class="btn btn-primary" href="/get_update_data/${data[i].id}" >Edit</a></td>
 
-                                <td><button type="button" class="btn btn-primary">Delete</button></td>
+                                <td><button type="button" class="btn btn-primary" onclick="bookDelete(${data[i].id})">Delete</button></td>
 
                             </tr>`
             }
@@ -26,11 +26,18 @@ var resultData = ''
 makeAjaxCall(bookListURL, methodType, resultData ,callBack)
 
 
-function bookEdit(){
-    console.log("data")
-    var bookUpdateURL = baseURL + "/book_update/<int:pk>/"
-    var methodType = "GET"
-    var callBack = function (data) {
-        console.log("data",data)
-    }
+function bookDelete(id){
+
+    var bookDeleteURL = baseURL + "/book_delete/" + id + "/";
+    var methodType = "DELETE"; 
+    var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+    
+    resultData = ''
+    
+    var callBack = function(response) {
+        console.log("response======", response);
+        window.location.href = "http://127.0.0.1:8000/get_book_list/";
+      };
+      postAjaxCall(bookDeleteURL, methodType, resultData,csrfToken,callBack)
+
 }

@@ -22,6 +22,11 @@ def get_user_list(request):
 def get_create_user(request):
     return render(request,"create_user.html")
 
+def get_update_data(request,pk):
+    print("pk=============",pk)
+    book = Book.objects.get(id=pk)
+    print("book---",book)
+    return render(request,"book_edit.html",{"book":book})
 
 @api_view(["POST"])
 def create_book(request):
