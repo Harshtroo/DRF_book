@@ -22,12 +22,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username","email","password","phone_number"]
-        # validators = [
-        #     UniqueTogetherValidator(
-        #         queryset=User.objects.all(),
-        #         fields=["username","email"]
-        #     )
-        # ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=User.objects.all(),
+                fields=["username","email"]
+            )
+        ]
 
     # def validate_length(value):
     #     an_integer = value
@@ -43,13 +43,13 @@ class UserSerializer(serializers.ModelSerializer):
     # password = serializers.CharField(style={"input_type" : "password"})
     # phone_number = serializers.RegexField("[0-9]{10}",validators=[validate_length])
 
-    # def create(self, validated_data):
-    #     return User.objects.create(**validated_data)
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
 
-    # def validate_email_address(email):
-    #     if not re.search(r"^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$", email):
-    #         print(f"The email address {email} is not valid")
-    #         return False
+    def validate_email_address(email):
+        if not re.search(r"^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$", email):
+            print(f"The email address {email} is not valid")
+            return False
 
 
     
