@@ -1,23 +1,21 @@
+var createBookURL = baseURL + "/create_book/"
+var methodType = "POST"
+var successCallBack = baseURL + "/book_list/"
+
+
 $("#my-create-book").on("submit",function(event){
     event.preventDefault()
-    console.log("hello")
-    var formData ={
+    var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+    var resultData = {
         name:$("#book_name").val(),
         author:$("#author_book").val(),
         publication_date:$("#publication_date").val(),
         rating :$("#rating").val()
     }
 
-    $.ajax({
-      type: 'POST',
-      url: "http://127.0.0.1:8000/create_book/",
-      data: formData,
-      dataType: "JSON",
-      success: function(resultData) {
-        window.location.href = "http://127.0.0.1:8000/get_book_list/"
-        }
-});
-
-
-
+    var Callback = function(response) {
+                        console.log("response======", response);
+                        window.location.href = "http://127.0.0.1:8000/get_book_list/";
+                      };
+    postAjaxCall(createBookURL, methodType, resultData,csrfToken,Callback)
 })

@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from book_crud.models import Book,User
 from rest_framework import status
 from django.shortcuts import render
-
+from django.views.decorators.csrf import csrf_exempt
 
 def home(request):
     return render(request,"home.html")
@@ -18,6 +18,10 @@ def get_create_book(request):
 
 def get_user_list(request):
     return render(request,"user_list.html")
+
+def get_create_user(request):
+    return render(request,"create_user.html")
+
 
 @api_view(["POST"])
 def create_book(request):
@@ -58,10 +62,12 @@ def book_delete(request, pk):
 
 @api_view(["POST"])
 def create_user(request):
+    # breakpoint()
     if request.method == "POST":
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+
             return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=400)
 

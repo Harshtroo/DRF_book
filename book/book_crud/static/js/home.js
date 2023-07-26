@@ -1,9 +1,9 @@
-var createUserURL = "{% url 'create_user' %}"
+var createUserURL = "http://127.0.0.1:8000/create_user/"
 
 $("#id").on("click", function(){
     $.ajax({
             type: 'POST',
-            url: "http://127.0.0.1:8000/create_user/",
+            url: createUserURL,
             data: serializedData,
             success: function (data) {
 
