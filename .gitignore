@@ -1,4 +1,4 @@
-./drf_env
+drf_env
 ./book/db.sqlite3
 *.pyc
 .idea/
