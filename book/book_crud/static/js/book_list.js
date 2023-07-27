@@ -35,7 +35,7 @@ function bookDelete(id){
     resultData = ''
     
     var callBack = function(response) {
-        console.log("response======", response);
+
         window.location.href = "http://127.0.0.1:8000/get_book_list/";
       };
       postAjaxCall(bookDeleteURL, methodType, resultData,csrfToken,callBack)

@@ -12,7 +12,7 @@ $("#my-book-edit").on("submit",function(event){
         rating :$("#rating").val()
     }
     var Callback = function(response) {
-        console.log("response======", response);
+
         window.location.href = "http://127.0.0.1:8000/get_book_list/";
       };
     postAjaxCall(bookUpdateURL, methodType, resultData,csrfToken,Callback)

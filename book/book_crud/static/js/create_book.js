@@ -14,7 +14,7 @@ $("#my-create-book").on("submit",function(event){
     }
 
     var Callback = function(response) {
-                        console.log("response======", response);
+
                         window.location.href = "http://127.0.0.1:8000/get_book_list/";
                       };
     postAjaxCall(createBookURL, methodType, resultData,csrfToken,Callback)

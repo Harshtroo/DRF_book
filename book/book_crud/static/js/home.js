@@ -1,15 +1,12 @@
-var createUserURL = "http://127.0.0.1:8000/create_user/"
+var homeURL = baseURL + "/create_user/"
+var methodType = "POST"
 
 $("#id").on("click", function(){
-    $.ajax({
-            type: 'POST',
-            url: createUserURL,
-            data: serializedData,
-            success: function (data) {
+        var csrfToken = $('input[name="csrfmiddlewaretoken"]').val()
+        var resultData = ''
+        var Callback = function(response) {
+        window.location.href =  "http://127.0.0.1:8000/get_user_list/"
+      };
+      postAjaxCall(homeURL, methodType, resultData,csrfToken,Callback)
 
-            }
-                $("#id").text( data[0].username)
-            },
-            error: function (error){
-            }
 })

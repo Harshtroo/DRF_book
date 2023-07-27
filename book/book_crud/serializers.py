@@ -29,19 +29,16 @@ class UserSerializer(serializers.ModelSerializer):
             )
         ]
 
-    # def validate_length(value):
-    #     an_integer = value
-    #     a_string = str(an_integer)
-    #     length = len(a_string)
-    #     if length > 10:
-    #         raise ValidationError(
-    #             _('phone number is above 10 digits')
-    #         )
+    def validate_length(value):
+        an_integer = value
+        a_string = str(an_integer)
+        length = len(a_string)
+        if length > 10:
+            raise ValidationError(
+                _('phone number is above 10 digits')
+            )
 
-    # username = serializers.CharField(max_length=50)
-    # email = serializers.EmailField()
-    # password = serializers.CharField(style={"input_type" : "password"})
-    # phone_number = serializers.RegexField("[0-9]{10}",validators=[validate_length])
+
 
     def create(self, validated_data):
         return User.objects.create(**validated_data)
