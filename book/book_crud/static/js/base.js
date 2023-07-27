@@ -4,7 +4,6 @@ function makeAjaxCall(url, methodType, resultData, callback){
  $.ajax({
     url : url,
     method : methodType,
-//    headers: {'X-CSRFToken': csrfToken},
     dataType : "json",
     data: resultData,
     success : callback,

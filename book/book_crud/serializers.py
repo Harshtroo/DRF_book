@@ -38,8 +38,6 @@ class UserSerializer(serializers.ModelSerializer):
                 _('phone number is above 10 digits')
             )
 
-
-
     def create(self, validated_data):
         return User.objects.create(**validated_data)
 
