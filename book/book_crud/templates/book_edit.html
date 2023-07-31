@@ -22,16 +22,23 @@
                   <input type="text" class="form-control" id="book_name" value={{book.name}}>
                 </div>
                 {{author.id}}
+
                 <div class="form-outline mb-4">
                   <div class="form-outline datepicker">
                     <label class="form-label">Author name</label>
                      <select data-placeholder="select Authors" multiple class="chosen-select" name="test" id="author_book" >
-                       <option value="{{book.author}}"></option>
+                      {% for author in authors %}
+                      {% if author in book.author.all %}
+                       <option value="{{author.id}}" selected>{{author.name}}</option>
+                      {% else %}
+                      <option value="{{author.id}}" >{{author.name}}</option>
+                      {% endif %}
+
+                      {% endfor %}
                      </select>
-<!--                    <input type="text" class="form-control" id="author_book" value={{book.author}}>-->
                   </div>
                 </div>
-<!--                {{book.publication_date}}-->
+    
                 <div class="form-outline mb-4">
                   <label class="form-label">publication_date</label>
                   <input type="date" class="form-control" id="publication_date" value={{book.publication_date}}>

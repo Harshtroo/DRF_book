@@ -27,7 +27,10 @@ def get_create_author(request):
 
 def get_update_data(request,pk):
     book = Book.objects.get(id=pk)
-    return render(request,"book_edit.html",{"book":book})
+    
+    authors = Author.objects.all()
+    print("authors========",authors)
+    return render(request,"book_edit.html",{"book":book,"authors":authors})
 
 @api_view(["POST"])
 def create_author(request):
@@ -75,6 +78,7 @@ def book_update(request, pk):
         return Response({"error": "Book not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = BookSerializer(book, data=request.data)
+    print("serializer=====",serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)

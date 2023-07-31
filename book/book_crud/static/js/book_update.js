@@ -1,4 +1,12 @@
 
+const originalDateStr = $("#hidden_public_date").val();
+const originalDate = new Date(originalDateStr);
+const year = originalDate.getFullYear(); 
+const month = originalDate.getMonth() + 1; 
+const day = originalDate.getDate(); 
+const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+$("#publication_date").val(formattedDate) 
+
 $("#my-book-edit").on("submit",function(event){
     event.preventDefault()
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
@@ -6,10 +14,8 @@ $("#my-book-edit").on("submit",function(event){
     var bookUpdateURL = baseURL + "/book_update/" + id + "/";
 
     var methodType = "PUT";
-//    var dataInput = document.getElementById("publication_date").val()
-//    console.log("dataInput=======",dataInput)
-    var selectedAuthor = $("#author_book option:selected").text();
 
+    var selectedAuthor = $("#author_book option:selected").text();
     var resultData = {
         name:$("#book_name").val(),
         author:$("#author_book").val(),
@@ -24,23 +30,6 @@ $("#my-book-edit").on("submit",function(event){
     postAjaxCall(bookUpdateURL, methodType, resultData,csrfToken,Callback)
 
 })
-
-
-//
-//var authorURL = baseURL + "/author_list/"
-//var authorMethodType = "GET"
-//var callBack = function (data) {
-//            output = ""
-//
-//            for (var i=0;i< data.length;i++){
-//             output += `
-//                <option value=${data[i].id}>${data[i].name}</option>
-//             `
-//            document.getElementById("author_book").innerHTML = output
-//            }
-//        }
-//var resultData = ''
-//makeAjaxCall(authorURL, authorMethodType, resultData ,callBack)
 
 
 

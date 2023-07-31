@@ -26,14 +26,16 @@ $("#my-create-book").on("submit",function(event){
 var authorURL = baseURL + "/author_list/"
 var authorMethodType = "GET"
 var callBack = function (data) {
+            
             output = ""
 
             for (var i=0;i< data.length;i++){
              output += `
                 <option value=${data[i].id}>${data[i].name}</option>
-             `
+                `
             document.getElementById("author_book").innerHTML = output
             }
+            console.log("output====================",output)
         }
 var resultData = ''
 makeAjaxCall(authorURL, authorMethodType, resultData ,callBack)
