@@ -18,7 +18,8 @@ function postAjaxCall(url, methodType, resultData,csrfToken, callback){
     url : url,
     method : methodType,
     headers: {'X-CSRFToken': csrfToken},
-    dataType : "json",
+    contentType: "application/json",
+    dataType: "text",
     data: resultData,
     success : callback,
     error : function (reason, xhr){

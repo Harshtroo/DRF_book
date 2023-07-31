@@ -17,19 +17,21 @@
                 {% csrf_token %}
                 <input type="hidden" class="form-control" id="book_id" value={{book.id}}>
 
-
                 <div class="form-outline mb-4">
                   <label class="form-label" >Book name</label>
                   <input type="text" class="form-control" id="book_name" value={{book.name}}>
                 </div>
-
+                {{author.id}}
                 <div class="form-outline mb-4">
                   <div class="form-outline datepicker">
                     <label class="form-label">Author name</label>
-                    <input type="text" class="form-control" id="author_book" value={{book.author}}>
+                     <select data-placeholder="select Authors" multiple class="chosen-select" name="test" id="author_book" >
+                       <option value="{{book.author}}"></option>
+                     </select>
+<!--                    <input type="text" class="form-control" id="author_book" value={{book.author}}>-->
                   </div>
                 </div>
-                {{book.publication_date}}
+<!--                {{book.publication_date}}-->
                 <div class="form-outline mb-4">
                   <label class="form-label">publication_date</label>
                   <input type="date" class="form-control" id="publication_date" value={{book.publication_date}}>

@@ -10,6 +10,7 @@ $("#my-create-user").on("submit",function(event){
         password:$("#password").val(),
         phone_number :$("#phone_number").val()
     }
+    resultData=JSON.stringify(resultData)
     var Callback = function(response) {
         window.location.href =  "http://127.0.0.1:8000/get_user_list/"
       };

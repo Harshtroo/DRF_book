@@ -22,12 +22,10 @@ var callBack = function (data) {
         }
 
 var resultData = ''
-
 makeAjaxCall(bookListURL, methodType, resultData ,callBack)
 
 
 function bookDelete(id){
-
     var bookDeleteURL = baseURL + "/book_delete/" + id + "/";
     var methodType = "DELETE"; 
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
@@ -36,7 +34,7 @@ function bookDelete(id){
     
     var callBack = function(response) {
 
-        window.location.href = "http://127.0.0.1:8000/get_book_list/";
+        ''
       };
       postAjaxCall(bookDeleteURL, methodType, resultData,csrfToken,callBack)
 

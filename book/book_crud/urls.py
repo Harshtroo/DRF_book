@@ -4,6 +4,9 @@ from book_crud import views
 
 urlpatterns = [
     path("",views.home,name="home"),
+    path("get_create_author/",views.get_create_author,name="get_create_author"),
+    path("create_author/",views.create_author,name="create_author"),
+    path("author_list/",views.author_list,name="author_list"),
     path("get_create_book/",views.get_create_book,name="get_create_book"),
     path("create_book/",views.create_book,name="create_book"),
     path("get_book_list/",views.get_book_list,name="get_book_list"),

@@ -1,21 +1,35 @@
 import re
-from book_crud.models import Book,User
+from book_crud.models import Book,User,Author
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = "__all__"
+
+
 class BookSerializer(serializers.ModelSerializer):
+    # author = AuthorSerializer(many=True)
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ["id","name","author","publication_date","rating"]
 
     def validate_rating(self,value):
         if value < 0 or value >= 10:
             raise serializers.ValidationError("rating should be between 0 to 9.9 ")
         return value
 
+    def to_representation(self, instance):
+        representation = super(BookSerializer, self).to_representation(instance)
+        author_list = []
+        for author in instance.author.all():
+            author_list.append(author.name)
+            representation['author'] = author_list
+        return representation
 
 class UserSerializer(serializers.ModelSerializer):
 

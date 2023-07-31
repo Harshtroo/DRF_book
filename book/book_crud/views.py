@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED,HTTP_404_NOT_FOUND
-from book_crud.serializers import BookSerializer,UserSerializer
+from book_crud.serializers import BookSerializer,UserSerializer,AuthorSerializer
 from rest_framework.decorators import api_view
-from book_crud.models import Book,User
+from book_crud.models import Book,User,Author
 from rest_framework import status
 from django.shortcuts import render
 
@@ -22,15 +22,41 @@ def get_user_list(request):
 def get_create_user(request):
     return render(request,"create_user.html")
 
+def get_create_author(request):
+    return render(request, "create_author.html")
+
 def get_update_data(request,pk):
     book = Book.objects.get(id=pk)
     return render(request,"book_edit.html",{"book":book})
 
 @api_view(["POST"])
+def create_author(request):
+    if request.method == "POST":
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return  Response(serializer.data,status=HTTP_201_CREATED)
+        return Response(serializer.errors,status=400)
+
+
+@api_view(["GET"])
+def author_list(request):
+    authors = Author.objects.all()
+    serializer = AuthorSerializer(authors, many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(["POST"])
 def create_book(request):
     if request.method == "POST":
         serializer = BookSerializer(data=request.data)
+
+        print("serializer===========",serializer)
+
         if serializer.is_valid():
+
+            print("serializer===================",serializer)
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=400)
@@ -65,7 +91,6 @@ def book_delete(request, pk):
 
 @api_view(["POST"])
 def create_user(request):
-
     if request.method == "POST":
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():

@@ -1,14 +1,22 @@
 from django.db import models
 from datetime import date
 
+class Author(models.Model):
+    name = models.CharField(max_length = 100)
+
+    def __str__(self):
+        return self.name
+
 class Book(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    author = models.CharField(max_length=100)
+    author = models.ManyToManyField(Author)
     publication_date = models.DateField(default=date.today)
     rating = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return self.name
+
+
 
 class User(models.Model):
     username = models.CharField(max_length=50,unique=True)
