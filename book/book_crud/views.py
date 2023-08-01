@@ -33,6 +33,7 @@ def get_update_data(request,pk):
 @api_view(["POST"])
 def create_author(request):
     if request.method == "POST":
+        
         serializer = AuthorSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -50,6 +51,9 @@ def author_list(request):
 @api_view(["POST"])
 def create_book(request):
     if request.method == "POST":
+        print("data-----------------------",request.data)
+        print("FIELS-----------------------",request.FILES)
+
         serializer = BookSerializer(data=request.data)
         # breakpoint()
         if serializer.is_valid(raise_exception=True):

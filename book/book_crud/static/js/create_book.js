@@ -24,9 +24,8 @@ $("#my-create-book").on("submit",function(event){
     }
 
 
-
     var resultData = {
-        image:$("#book_image").value,
+        image:$("#book_image")[0].files[0]["name"],
         name:$("#book_name").val(),
         author:$("#author_book").val(),
         publication_date:$("#publication_date").val(),
@@ -36,7 +35,7 @@ $("#my-create-book").on("submit",function(event){
     resultData=JSON.stringify(resultData)
 
     var Callback = function(response) {
-                        window.location.href = "http://127.0.0.1:8000/get_book_list/";
+                        // window.location.href = "http://127.0.0.1:8000/get_book_list/";
                       };
     postAjaxCall(createBookURL, methodType, resultData,csrfToken,Callback)
 })
