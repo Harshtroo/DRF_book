@@ -1,11 +1,12 @@
 
-const originalDateStr = $("#hidden_public_date").val();
-const originalDate = new Date(originalDateStr);
-const year = originalDate.getFullYear(); 
-const month = originalDate.getMonth() + 1; 
-const day = originalDate.getDate(); 
-const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-$("#publication_date").val(formattedDate) 
+var originalDateStr = $("#hidden_public_date").val();
+
+var originalDate = new Date(originalDateStr);
+var year = originalDate.getFullYear();
+var month = originalDate.getMonth() + 1;
+var day = originalDate.getDate();
+var formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+$("#publication_date").val(formattedDate)
 
 $("#my-book-edit").on("submit",function(event){
     event.preventDefault()

@@ -4,15 +4,35 @@ var successCallBack = baseURL + "/book_list/"
 
 
 $("#my-create-book").on("submit",function(event){
+//    debugger()
     event.preventDefault()
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
 
+
+//    var file = $('#book_image').prop('files')
+//    console.log("file------------",$("#book_image").value)
+    var chooseFile = document.getElementById("book_image");
+    chooseFile.addEventListener("change", function () {
+      getImgData();
+    });
+    function getImgData() {
+      const files = chooseFile.files[0];
+      if (files) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(files);
+        }
+    }
+
+
+
     var resultData = {
+        image:$("#book_image").value,
         name:$("#book_name").val(),
         author:$("#author_book").val(),
         publication_date:$("#publication_date").val(),
         rating :$("#rating").val()
     }
+    console.log("helloo------------",resultData)
     resultData=JSON.stringify(resultData)
 
     var Callback = function(response) {
@@ -35,7 +55,7 @@ var callBack = function (data) {
                 `
             document.getElementById("author_book").innerHTML = output
             }
-            console.log("output====================",output)
+
         }
 var resultData = ''
 makeAjaxCall(authorURL, authorMethodType, resultData ,callBack)

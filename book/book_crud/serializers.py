@@ -14,9 +14,10 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     # author = AuthorSerializer(many=True)
+
     class Meta:
         model = Book
-        fields = ["id","name","author","publication_date","rating"]
+        fields = ["id","image","name","author","publication_date","rating"]
 
     def validate_rating(self,value):
         if value < 0 or value >= 10:
@@ -24,8 +25,10 @@ class BookSerializer(serializers.ModelSerializer):
         return value
 
     def to_representation(self, instance):
+
         representation = super(BookSerializer, self).to_representation(instance)
         author_list = []
+        print("data112--------------",instance.author)
         for author in instance.author.all():
             author_list.append(author.name)
             representation['author'] = author_list

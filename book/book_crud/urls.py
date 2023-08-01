@@ -1,6 +1,7 @@
 from django.urls import path, include
 from book_crud import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("",views.home,name="home"),
@@ -19,3 +20,7 @@ urlpatterns = [
     path("get_user_list/",views.get_user_list,name="get_user_list"),
     path("user_list/",views.user_list,name="user_list"),
 ]
+
+
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -13,8 +13,13 @@
             <div class="form-outline datepicker">
               <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" align="center">Create Book</h3>
 
-              <form class="px-md-2" method="POST" id="my-create-book">
+              <form class="px-md-2" method="POST" id="my-create-book" enctype="multipart/form-data">
                 {% csrf_token %}
+                <div class="form-outline mb-4">
+                  <label class="form-label">Book image</label>
+                  <input type="file" accept="images/" class="form-control" id="book_image"  >
+                </div>
+
                 <div class="form-outline mb-4">
                   <label class="form-label" >Book name</label>
                   <input type="text" class="form-control" id="book_name">

@@ -27,9 +27,7 @@ def get_create_author(request):
 
 def get_update_data(request,pk):
     book = Book.objects.get(id=pk)
-    
     authors = Author.objects.all()
-    print("authors========",authors)
     return render(request,"book_edit.html",{"book":book,"authors":authors})
 
 @api_view(["POST"])
@@ -49,17 +47,12 @@ def author_list(request):
     return Response(serializer.data)
 
 
-
 @api_view(["POST"])
 def create_book(request):
     if request.method == "POST":
         serializer = BookSerializer(data=request.data)
-
-        print("serializer===========",serializer)
-
-        if serializer.is_valid():
-
-            print("serializer===================",serializer)
+        # breakpoint()
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=400)
@@ -78,7 +71,6 @@ def book_update(request, pk):
         return Response({"error": "Book not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = BookSerializer(book, data=request.data)
-    print("serializer=====",serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -97,9 +89,9 @@ def book_delete(request, pk):
 def create_user(request):
     if request.method == "POST":
         serializer = UserSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
-
             return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=400)
 
