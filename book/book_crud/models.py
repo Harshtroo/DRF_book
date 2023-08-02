@@ -18,7 +18,6 @@ class Book(models.Model):
         return self.name
 
 
-
 class User(models.Model):
     username = models.CharField(max_length=50,unique=True)
     email = models.EmailField()

@@ -17,18 +17,18 @@
                 {% csrf_token %}
                 <div class="form-outline mb-4">
                   <label class="form-label">Book image</label>
-                  <input type="file" accept="images/" class="form-control" id="book_image" name="book_image">
+                  <input type="file" accept="image/*" class="form-control" id="book_image" name="image">
                 </div>
 
                 <div class="form-outline mb-4">
                   <label class="form-label" >Book name</label>
-                  <input type="text" class="form-control" id="book_name" name="book_name">
+                  <input type="text" class="form-control" id="book_name" name="name">
                 </div>
 
                 <div class="form-outline mb-4" >
                   <div class="form-outline datepicker">
                     <label class="form-label">Author name</label>
-                    <select data-placeholder="select Authors" multiple class="chosen-select" name="author_book" id="author_book">
+                    <select data-placeholder="select Authors" multiple class="chosen-select" name="author" id="author_book">
                     </select>
                   </div>
                 </div>
@@ -43,7 +43,7 @@
                   <input type="number" class="form-control" id="rating" name="rating">
                 </div>
 
-                <button type="submit" class="btn btn-success btn-lg mb-1" >Submit</button>
+                <button type="submit" class="btn btn-success btn-lg mb-1" id="submit_create_book">Submit</button>
 
               </form>
             </div>

@@ -12,7 +12,7 @@ $("#my-create-user").on("submit",function(event){
     }
     resultData=JSON.stringify(resultData)
     var Callback = function(response) {
-        window.location.href =  "http://127.0.0.1:8000/get_user_list/"
+        window.location.href = baseURL + "/get_user_list/"
       };
      postAjaxCall(createUserURL, methodType, resultData,csrfToken,Callback)
 })

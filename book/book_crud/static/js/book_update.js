@@ -17,18 +17,29 @@ $("#my-book-edit").on("submit",function(event){
     var methodType = "PUT";
 
     var selectedAuthor = $("#author_book option:selected").text();
-    var resultData = {
-        name:$("#book_name").val(),
-        author:$("#author_book").val(),
-        publication_date:$("#publication_date").val(),
-        rating :$("#rating").val()
-    }
-    resultData=JSON.stringify(resultData)
+
+//    if (document.getElementById("image").files.length == 0) {
+//        document.img.value=$("#book_image").prop("files")[0];
+//    }
+
+
+    var form_data = new FormData($("#my-book-edit")[0]);
+    var image = $("#book_image").prop("files")[0];
+    form_data.append("image", image);
+    console.log("image----------",form_data)
+//    var resultData = {
+//        image:$("#book_image").value,
+//        name:$("#book_name").val(),
+//        author:$("#author_book").val(),
+//        publication_date:$("#publication_date").val(),
+//        rating :$("#rating").val()
+//    }
+//    resultData=JSON.stringify(resultData)
     var Callback = function(response) {
 
-        window.location.href = "http://127.0.0.1:8000/get_book_list/";
+        window.location.href = baseURL + "/get_book_list/";
       };
-    postAjaxCall(bookUpdateURL, methodType, resultData,csrfToken,Callback)
+    postAjaxCall(bookUpdateURL, methodType, form_data,csrfToken,Callback)
 
 })
 

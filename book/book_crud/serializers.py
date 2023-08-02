@@ -13,7 +13,6 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    # author = AuthorSerializer(many=True)
 
     class Meta:
         model = Book
@@ -25,10 +24,8 @@ class BookSerializer(serializers.ModelSerializer):
         return value
 
     def to_representation(self, instance):
-
         representation = super(BookSerializer, self).to_representation(instance)
         author_list = []
-        print("data112--------------",instance.author)
         for author in instance.author.all():
             author_list.append(author.name)
             representation['author'] = author_list

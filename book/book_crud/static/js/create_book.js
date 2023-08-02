@@ -2,59 +2,30 @@ var createBookURL = baseURL + "/create_book/"
 var methodType = "POST"
 var successCallBack = baseURL + "/book_list/"
 
-
 $("#my-create-book").on("submit",function(event){
-//    debugger()
     event.preventDefault()
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-
-
-//    var file = $('#book_image').prop('files')
-//    console.log("file------------",$("#book_image").value)
-    var chooseFile = document.getElementById("book_image");
-    chooseFile.addEventListener("change", function () {
-      getImgData();
-    });
-    function getImgData() {
-      const files = chooseFile.files[0];
-      if (files) {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(files);
-        }
-    }
-
-
-    var resultData = {
-        image:$("#book_image")[0].files[0]["name"],
-        name:$("#book_name").val(),
-        author:$("#author_book").val(),
-        publication_date:$("#publication_date").val(),
-        rating :$("#rating").val()
-    }
-    console.log("helloo------------",resultData)
-    resultData=JSON.stringify(resultData)
+    var form_data = new FormData($("#my-create-book")[0]);
+    var image = $("#book_image").prop("files")[0];
+    form_data.append("image", image);
 
     var Callback = function(response) {
-                        // window.location.href = "http://127.0.0.1:8000/get_book_list/";
+                         window.location.href = baseURL + "/get_book_list/";
                       };
-    postAjaxCall(createBookURL, methodType, resultData,csrfToken,Callback)
+    postAjaxCall(createBookURL, methodType, form_data,csrfToken,Callback)
 })
-
 
 
 var authorURL = baseURL + "/author_list/"
 var authorMethodType = "GET"
 var callBack = function (data) {
-            
             output = ""
-
             for (var i=0;i< data.length;i++){
              output += `
                 <option value=${data[i].id}>${data[i].name}</option>
                 `
             document.getElementById("author_book").innerHTML = output
             }
-
         }
 var resultData = ''
 makeAjaxCall(authorURL, authorMethodType, resultData ,callBack)
