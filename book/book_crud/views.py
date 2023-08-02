@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED,HTTP_404_NOT_FOUND
-from book_crud.serializers import BookSerializer,UserSerializer,AuthorSerializer
+from book_crud.serializers import BookSerializer,UserSerializer,AuthorSerializer,LibrarySerializer
 from rest_framework.decorators import api_view
 from book_crud.models import Book,User,Author
 from rest_framework import status
@@ -29,6 +29,10 @@ def get_update_data(request,pk):
     book = Book.objects.get(id=pk)
     authors = Author.objects.all()
     return render(request,"book_edit.html",{"book":book,"authors":authors})
+
+
+def get_create_library(request):
+    return render(request,"create_library.html")
 
 @api_view(["POST"])
 def create_author(request):
@@ -99,3 +103,13 @@ def user_list(request):
     books = User.objects.all()
     serializer = UserSerializer(books, many=True)
     return Response(serializer.data)
+
+
+@api_view(["POST"])
+def create_library(request):
+    if request.method == "POST":
+        serializer = LibrarySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=400)

@@ -13,7 +13,8 @@ $("#my-book-edit").on("submit",function(event){
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
     var id = $("#book_id").val();
     var bookUpdateURL = baseURL + "/book_update/" + id + "/";
-
+    let contentType =  false
+    let processData = false
     var methodType = "PUT";
 
     var selectedAuthor = $("#author_book option:selected").text();
@@ -28,7 +29,7 @@ $("#my-book-edit").on("submit",function(event){
 
         window.location.href = baseURL + "/get_book_list/";
       };
-    postAjaxCall(bookUpdateURL, methodType, form_data,csrfToken,Callback)
+    postAjaxCall(bookUpdateURL, methodType, form_data,csrfToken,Callback,contentType,processData)
 
 })
 

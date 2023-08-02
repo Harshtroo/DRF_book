@@ -19,6 +19,8 @@ urlpatterns = [
     path("create_user/",views.create_user,name="create_user"),
     path("get_user_list/",views.get_user_list,name="get_user_list"),
     path("user_list/",views.user_list,name="user_list"),
+    path("get_create_library/",views.get_create_library,name="get_create_library"),
+    path("create_library/",views.create_library,name="create_library"),
 ]
 
 

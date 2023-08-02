@@ -4,6 +4,8 @@ var methodType = "POST"
 $("#my-create-user").on("submit",function(event){
     event.preventDefault()
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+    let contentType = "application/json"
+    let processData = false
     var resultData = {
         username:$("#username").val(),
         email:$("#email").val(),
@@ -14,7 +16,7 @@ $("#my-create-user").on("submit",function(event){
     var Callback = function(response) {
         window.location.href = baseURL + "/get_user_list/"
       };
-     postAjaxCall(createUserURL, methodType, resultData,csrfToken,Callback)
+     postAjaxCall(createUserURL, methodType, resultData,csrfToken,Callback,contentType,processData)
 })
 
 

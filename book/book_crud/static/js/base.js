@@ -13,13 +13,13 @@ function makeAjaxCall(url, methodType, resultData, callback){
    });
  }
 
-function postAjaxCall(url, methodType, resultData,csrfToken, callback){
+function postAjaxCall(url, methodType, resultData,csrfToken, callback,contentType,processData){
     $.ajax({
     url : url,
     method : methodType,
     headers: {'X-CSRFToken': csrfToken},
-    contentType: false,
-    processData: false,
+    contentType: contentType,
+    processData: processData,
 
     data: resultData,
     success : callback,
