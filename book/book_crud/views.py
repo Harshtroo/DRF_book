@@ -71,7 +71,6 @@ def book_update(request, pk):
         return Response({"error": "Book not found"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = BookSerializer(book, data=request.data)
-    print("serializer-------------",serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
