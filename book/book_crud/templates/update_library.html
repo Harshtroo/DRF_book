@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<section class="h-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3">
+          <div class="card-body p-4 p-md-5">
+            <div class="form-outline datepicker">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" align="center">Edit Library</h3>
+
+              <form class="px-md-2" method="POST" id="my-library-edit" >
+                {% csrf_token %}
+                <input type="hidden" class="form-control" id="library_id" value={{library.id}}>
+
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Book name</label>
+                  <input type="text" class="form-control" id="library_name" value={{library.name}} name="name">
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="form-outline datepicker">
+                    <label class="form-label">Book name</label>
+                     <select data-placeholder="select Book"  name="book" id="library_book">
+                      {% for book in books %}
+                      {% if book in library.book.all %}
+                       <option value="{{book.id}}" selected>{{book.name}}</option>
+                      {% else %}
+                      <option value="{{book.id}}" >{{book.name}}</option>
+                      {% endif %}
+
+                      {% endfor %}
+                     </select>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg mb-1" >Submit</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{% static 'js/base.js' %}"></script>
+<script src="{% static 'js/update_library.js' %}"></script>
+{% endblock %}

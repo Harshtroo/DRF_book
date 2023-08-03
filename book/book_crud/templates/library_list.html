@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/book_list.css' %}" />
+<a type="button" class="btn btn-primary" href="{% url 'get_create_library' %}">Create Book</a>
+<table class="table table-bordered" align="center">
+  {% csrf_token %}
+    <h3 class="mb-4 pb-2 pb-md-0 mb-md-4 px-md-2 mt-3" align="center">Library list</h3>
+    <thead>
+      <tr class="table-dark">
+          <th scope="col">Id</th>
+          <th scope="col">Library name</th>
+          <th scope="col">Book</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody id="library_list">
+    </tbody>
+</table>
+<script src="{% static 'js/base.js' %}"></script>
+<script src="{% static 'js/library_list.js' %}"></script>
+{% endblock %}

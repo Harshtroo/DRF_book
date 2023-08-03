@@ -26,7 +26,7 @@
                   <label class="form-label" >Book name</label>
                   <input type="text" class="form-control" id="book_name" value={{book.name}} name="name">
                 </div>
-                {{author.id}}
+
 
                 <div class="form-outline mb-4">
                   <div class="form-outline datepicker">
@@ -38,7 +38,6 @@
                       {% else %}
                       <option value="{{author.id}}" >{{author.name}}</option>
                       {% endif %}
-
                       {% endfor %}
                      </select>
                   </div>

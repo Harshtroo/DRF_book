@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED,HTTP_404_NOT_FOUND
-from book_crud.serializers import BookSerializer,UserSerializer,AuthorSerializer
+from book_crud.serializers import BookSerializer,UserSerializer,AuthorSerializer,LibrarySerializer
 from rest_framework.decorators import api_view
-from book_crud.models import Book,User,Author
+from book_crud.models import Book,User,Author,Library
 from rest_framework import status
 from django.shortcuts import render
 
@@ -25,6 +25,18 @@ def get_create_user(request):
 def get_create_author(request):
     return render(request, "create_author.html")
 
+def get_create_library(request):
+    books = Book.objects.all()
+    return render(request,"create_library.html",{"book":books})
+
+def get_library_list(request):
+    return render(request,"library_list.html")
+
+def get_update_library(request,pk):
+    library = Library.objects.get(id=pk)
+    book = Book.objects.all()
+    return render(request, "update_library.html", {"library": library,"books":book})
+
 def get_update_data(request,pk):
     book = Book.objects.get(id=pk)
     authors = Author.objects.all()
@@ -37,7 +49,7 @@ def create_author(request):
         if serializer.is_valid():
             serializer.save()
             return  Response(serializer.data,status=HTTP_201_CREATED)
-        return Response(serializer.errors,status=400)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
@@ -54,7 +66,7 @@ def create_book(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET"])
 def book_list(request):
@@ -63,7 +75,6 @@ def book_list(request):
     return Response(serializer.data)
 
 @api_view(["PUT"])
-
 def book_update(request, pk):
     try:
         book = Book.objects.get(pk=pk)
@@ -92,10 +103,48 @@ def create_user(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET"])
 def user_list(request):
     books = User.objects.all()
     serializer = UserSerializer(books, many=True)
     return Response(serializer.data)
+
+@api_view(["POST"])
+def create_library(request):
+    if request.method == "POST":
+        serializer = LibrarySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET"])
+def library_list(request):
+    books = Library.objects.all()
+    serializer = LibrarySerializer(books, many=True)
+    return Response(serializer.data)
+
+@api_view(["PUT"])
+def library_update(request,pk):
+    try:
+        book = Library.objects.get(pk=pk)
+    except Library.DoesNotExist:
+        return Response({"error": "Library not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = LibrarySerializer(book, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["DELETE"])
+def library_delete(request, pk):
+    try:
+        library = Library.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        return Response({"error": "library not found"}, status=status.HTTP_404_NOT_FOUND)
+    library.delete()
+    return Response({"message": "library deleted successfully"}, status=status.HTTP_204_NO_CONTENT)

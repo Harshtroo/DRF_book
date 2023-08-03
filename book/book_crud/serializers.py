@@ -1,5 +1,5 @@
 import re
-from book_crud.models import Book,User,Author
+from book_crud.models import Book,User,Author,Library
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from django.core.exceptions import ValidationError
@@ -30,6 +30,15 @@ class BookSerializer(serializers.ModelSerializer):
             author_list.append(author.name)
             representation['author'] = author_list
         return representation
+
+
+class LibrarySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Library
+        fields = ["id","name","book"]
+
+
 
 class UserSerializer(serializers.ModelSerializer):
 

@@ -19,7 +19,15 @@ urlpatterns = [
     path("create_user/",views.create_user,name="create_user"),
     path("get_user_list/",views.get_user_list,name="get_user_list"),
     path("user_list/",views.user_list,name="user_list"),
+    path("get_create_library/",views.get_create_library,name="get_create_library"),
+    path("create_library/",views.create_library,name="create_library"),
+    path("get_library_list/",views.get_library_list,name="get_library_list"),
+    path("library_list/",views.library_list,name="library_list"),
+    path("get_update_library/<int:pk>/",views.get_update_library,name="get_update_library"),
+    path("library_update/<int:pk>/",views.library_update,name="library_update"),
+    path("library_delete/<int:pk>/",views.library_delete,name="library_delete"),
 ]
+
 
 
 if settings.DEBUG:
