@@ -1,5 +1,5 @@
 drf_env/*
-.db.sqlite3/*
+./book/db.sqlite3/
 __pycache__/
 .idea/
 *.pyc
