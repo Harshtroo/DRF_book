@@ -33,7 +33,7 @@ function bookDelete(id){
     resultData = ''
     
     var callBack = function(response) {
-        ''
+        window.location.reload();
       };
       postAjaxCall(bookDeleteURL, methodType, resultData,csrfToken,callBack)
 
