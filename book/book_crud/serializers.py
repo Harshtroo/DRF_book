@@ -1,9 +1,7 @@
 import re
 from book_crud.models import Book,User,Author,Library
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -45,29 +43,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username","email","password","phone_number"]
-        validators = [
-            UniqueTogetherValidator(
-                queryset=User.objects.all(),
-                fields=["username","email"]
-            )
-        ]
 
-    def validate_length(value):
-        an_integer = value
-        a_string = str(an_integer)
-        length = len(a_string)
-        if length > 10:
-            raise ValidationError(
-                _('phone number is above 10 digits')
-            )
 
-    def create(self, validated_data):
-        return User.objects.create(**validated_data)
+    def validate_phone_number(self,phone_number):
+        if len(str(phone_number)) >= 11:
+            raise ValidationError('Phone number is above 10 digits.')
+        return phone_number
 
-    def validate_email_address(email):
-        if not re.search(r"^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$", email):
-            print(f"The email address {email} is not valid")
-            return False
 
 
     

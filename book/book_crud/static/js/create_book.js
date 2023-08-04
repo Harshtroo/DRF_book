@@ -8,11 +8,12 @@ $("#my-create-book").on("submit",function(event){
     var form_data = new FormData($("#my-create-book")[0]);
     var image = $("#book_image").prop("files")[0];
     form_data.append("image", image);
-
+    var contentType =  false
+    var processData =  false
     var Callback = function(response) {
                          window.location.href = baseURL + "/get_book_list/";
                       };
-    postAjaxCall(createBookURL, methodType, form_data,csrfToken,Callback)
+    postAjaxCall(createBookURL, methodType, form_data,csrfToken,Callback,contentType,processData)
 })
 
 

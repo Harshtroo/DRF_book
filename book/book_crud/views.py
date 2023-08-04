@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from book_crud.models import Book,User,Author,Library
 from rest_framework import status
 from django.shortcuts import render
-
+from rest_framework import generics
 
 def home(request):
     return render(request,"home.html")
@@ -100,6 +100,7 @@ def book_delete(request, pk):
 def create_user(request):
     if request.method == "POST":
         serializer = UserSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
@@ -111,14 +112,24 @@ def user_list(request):
     serializer = UserSerializer(books, many=True)
     return Response(serializer.data)
 
-@api_view(["POST"])
-def create_library(request):
-    if request.method == "POST":
-        serializer = LibrarySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# @api_view(["POST"])
+# def create_library(request):
+#     if request.method == "POST":
+#         serializer = LibrarySerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LibraryView(generics.CreateAPIView):
+    serializer_class = LibrarySerializer
+
+    def get_serializer(self,*args,**kwargs):
+        if isinstance(kwargs.get("data",{}),list):
+            kwargs["many"] = True
+        return super(LibraryView,self).get_serializer(*args,**kwargs)
+
 
 @api_view(["GET"])
 def library_list(request):
