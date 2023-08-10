@@ -59,14 +59,15 @@ def author_list(request):
     return Response(serializer.data)
 
 
-@api_view(["POST"])
-def create_book(request):
-    if request.method == "POST":
-        serializer = BookSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class CreateBookView(generics.CreateAPIView):
+    serializer_class = BookSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 @api_view(["GET"])
 def book_list(request):
@@ -111,15 +112,6 @@ def user_list(request):
     books = User.objects.all()
     serializer = UserSerializer(books, many=True)
     return Response(serializer.data)
-
-# @api_view(["POST"])
-# def create_library(request):
-#     if request.method == "POST":
-#         serializer = LibrarySerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LibraryView(generics.CreateAPIView):
