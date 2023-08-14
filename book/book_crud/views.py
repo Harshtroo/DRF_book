@@ -6,7 +6,6 @@ from book_crud.models import Book,User,Author,Library
 from rest_framework import status
 from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.parsers import MultiPartParser
 
 def home(request):
     return render(request,"home.html")
@@ -61,13 +60,41 @@ def author_list(request):
 
 
 class CreateBookView(generics.CreateAPIView):
-    parser_classes = [MultiPartParser]
+    queryset = Book.objects.all()
     serializer_class = BookSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
+        serializer = self.get_serializer(data=request.data)
+        print("serializer-------------------------",serializer)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+                    {"data":serializer.data,
+                     "status":status.HTTP_201_CREATED,
+                     "headers":headers})
+
+
+
+
+    #
+    # def create(self, request, *args, **kwargs):
+    #     # serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
+    #     print("serializer---============",request.data["image[0]"])
+    #     data = {
+    #         "name" :request.data.get("name"),
+    #         "author":[request.data.get("author")],
+    #         "image": [request.data.get("image[0]"),request.data.get("image[1]")],
+    #         "publication_date": request.data.get("publication_date", None),
+    #         "rating":request.data.get("rating", None)
+    #     }
+    #     print("data--------------------------",data)
+    #     serializer = BookSerializer(data=data,many=isinstance(request.data, list))
+    #     serializer.is_valid(raise_exception=True)
+    #     # breakpoint()
+    #
+    #     self.perform_create(serializer)
+
         headers = self.get_success_headers(serializer.data)
 
         return Response(
