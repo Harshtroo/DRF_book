@@ -29,38 +29,6 @@ class BookSerializer(serializers.ModelSerializer):
             representation['author'] = author_list
         return representation
 
-    # def create(self, validated_data):
-    #     image = validated_data.pop('image', [])
-    #     instance = super().create(validated_data)
-    #
-    #     for image in image:
-    #         instance.image.create(image=image)
-    #
-    #     return instance
-
-    def validate(self,validate_data):
-        # validate_data["id"] = str(uuid.uuid4())
-        print("validate_data-----",validate_data)
-        print("self-------------",self.initial_data)
-        # book =Book(validate_data)
-        # book.save()
-        return self.initial_data
-
-
-
-
-    # def create(self,validate_data):
-    #     breakpoint()
-    #     for key,value in validate_data.items():
-    #         if key == "image":
-    #             for image in value:
-    #                 add_image = Book.objects.create(image=image)
-    #                 add_image.save()
-    #     return validate_data
-
-
-
-
 class LibrarySerializer(serializers.ModelSerializer):
 
     class Meta:

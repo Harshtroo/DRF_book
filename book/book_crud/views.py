@@ -7,6 +7,8 @@ from rest_framework import status
 from django.shortcuts import render
 from rest_framework import generics
 
+
+
 def home(request):
     return render(request,"home.html")
 
@@ -64,46 +66,22 @@ class CreateBookView(generics.CreateAPIView):
     serializer_class = BookSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        print("serializer-------------------------",serializer)
+        serializer = self.get_serializer(data=request.data,many=True)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        name_list = serializer.initial_data.get("name").split(",")
+        author_list = serializer.initial_data.get("author").split(",")
+        image_list = request.FILES.getlist("image")
+
+        for i in range(len(name_list)):
+            author_obj =Author.objects.get(id=author_list[i])
+            book = Book.objects.create(name=name_list[i],image=image_list[i])
+            book.author.add(author_obj)
+
         headers = self.get_success_headers(serializer.data)
         return Response(
                     {"data":serializer.data,
                      "status":status.HTTP_201_CREATED,
                      "headers":headers})
-
-
-
-
-    #
-    # def create(self, request, *args, **kwargs):
-    #     # serializer = self.get_serializer(data=request.data, many=isinstance(request.data, list))
-    #     print("serializer---============",request.data["image[0]"])
-    #     data = {
-    #         "name" :request.data.get("name"),
-    #         "author":[request.data.get("author")],
-    #         "image": [request.data.get("image[0]"),request.data.get("image[1]")],
-    #         "publication_date": request.data.get("publication_date", None),
-    #         "rating":request.data.get("rating", None)
-    #     }
-    #     print("data--------------------------",data)
-    #     serializer = BookSerializer(data=data,many=isinstance(request.data, list))
-    #     serializer.is_valid(raise_exception=True)
-    #     # breakpoint()
-    #
-    #     self.perform_create(serializer)
-
-        headers = self.get_success_headers(serializer.data)
-
-        return Response(
-            {"data":serializer.data,
-             "status":status.HTTP_201_CREATED,
-             "headers":headers})
-
-
-
 
 
 @api_view(["GET"])

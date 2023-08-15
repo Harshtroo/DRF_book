@@ -9,7 +9,7 @@ class Author(models.Model):
 
 class Book(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    author = models.ManyToManyField(Author)
+    author = models.ManyToManyField(Author,null=True)
     publication_date = models.DateField(default=date.today)
     rating = models.PositiveSmallIntegerField(default=0)
     image = models.ImageField(upload_to='images/',blank=True)
