@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED,HTTP_404_NOT_FOUND
 from book_crud.serializers import BookSerializer,UserSerializer,AuthorSerializer,LibrarySerializer
@@ -6,7 +8,7 @@ from book_crud.models import Book,User,Author,Library
 from rest_framework import status
 from django.shortcuts import render
 from rest_framework import generics
-
+from django.http import JsonResponse
 
 
 def home(request):
@@ -66,22 +68,21 @@ class CreateBookView(generics.CreateAPIView):
     serializer_class = BookSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data,many=True)
+        serializer = self.serializer_class(data=request.data,many=True)
+        print("serializer data----------",serializer)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
+        breakpoint()
+        print("serializer-----------------------------------",serializer.data)
         name_list = serializer.initial_data.get("name").split(",")
         author_list = serializer.initial_data.get("author").split(",")
         image_list = request.FILES.getlist("image")
 
-        for i in range(len(name_list)):
-            author_obj =Author.objects.get(id=author_list[i])
-            book = Book.objects.create(name=name_list[i],image=image_list[i])
+        for data in range(len(name_list)):
+            author_obj =Author.objects.get(id=author_list[data])
+            book = Book.objects.create(name=name_list[data],image=image_list[data])
             book.author.add(author_obj)
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-                    {"data":serializer.data,
-                     "status":status.HTTP_201_CREATED,
-                     "headers":headers})
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET"])

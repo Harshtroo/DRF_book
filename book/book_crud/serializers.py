@@ -18,7 +18,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     def validate_rating(self,value):
         if value < 0 or value >= 10:
-            raise serializers.ValidationError("rating should be between 0 to 9.9 ")
+            raise serializers.ValidationError("rating should be between 0 to 10 ")
         return value
 
     def to_representation(self, instance):
@@ -28,6 +28,26 @@ class BookSerializer(serializers.ModelSerializer):
             author_list.append(author.name)
             representation['author'] = author_list
         return representation
+
+    def create(self,instance,validated_data):
+        instance.name = validated_data.get("name",instance.name)
+        instance.author = validated_data.get('author',instance.author)
+        instance.image = validated_data.get('image',instance.image)
+        # super().create(validated_data)
+        # instance = Book.objects.create(**validated_data,name=name,author=author,image=image)
+        instance.save()
+        return instance
+        # book_serializer =
+    #     print("validated_data-------------",validated_data)
+    #     author_data = validated_data.pop('author')
+    #     image_data = validated_data.pop('image')
+    #     book = Book.objects.create(**validated_data)
+    #     print("book ------------------",book)
+    #     print("author_data-----------------",author_data)
+    #     print("image_data--------------",image_data)
+    #     return Book.objects.create(**validated_data)
+        # return validated_data
+
 
 class LibrarySerializer(serializers.ModelSerializer):
 
