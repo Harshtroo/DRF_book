@@ -29,24 +29,10 @@ class BookSerializer(serializers.ModelSerializer):
             representation['author'] = author_list
         return representation
 
-    def create(self,instance,validated_data):
-        instance.name = validated_data.get("name",instance.name)
-        instance.author = validated_data.get('author',instance.author)
-        instance.image = validated_data.get('image',instance.image)
-        # super().create(validated_data)
-        # instance = Book.objects.create(**validated_data,name=name,author=author,image=image)
-        instance.save()
-        return instance
-        # book_serializer =
-    #     print("validated_data-------------",validated_data)
-    #     author_data = validated_data.pop('author')
-    #     image_data = validated_data.pop('image')
-    #     book = Book.objects.create(**validated_data)
-    #     print("book ------------------",book)
-    #     print("author_data-----------------",author_data)
-    #     print("image_data--------------",image_data)
-    #     return Book.objects.create(**validated_data)
-        # return validated_data
+    def create(self, validated_data):
+        books = [Book(**item) for item in validated_data]
+        print("book0000000000000-----------------",books)
+        return Book.objects.bulk_create(books)
 
 
 class LibrarySerializer(serializers.ModelSerializer):

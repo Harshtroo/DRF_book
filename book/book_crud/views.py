@@ -72,7 +72,7 @@ class CreateBookView(generics.CreateAPIView):
         print("serializer data----------",serializer)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        breakpoint()
+        # breakpoint()
         print("serializer-----------------------------------",serializer.data)
         name_list = serializer.initial_data.get("name").split(",")
         author_list = serializer.initial_data.get("author").split(",")
@@ -80,6 +80,7 @@ class CreateBookView(generics.CreateAPIView):
 
         for data in range(len(name_list)):
             author_obj =Author.objects.get(id=author_list[data])
+            print("author_obj-------------------",author_obj)
             book = Book.objects.create(name=name_list[data],image=image_list[data])
             book.author.add(author_obj)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
