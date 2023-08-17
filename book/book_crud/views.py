@@ -1,14 +1,12 @@
-from pprint import pprint
-
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED,HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_201_CREATED
 from book_crud.serializers import BookSerializer,UserSerializer,AuthorSerializer,LibrarySerializer
 from rest_framework.decorators import api_view
 from book_crud.models import Book,User,Author,Library
 from rest_framework import status
 from django.shortcuts import render
 from rest_framework import generics
-from django.http import JsonResponse
+from rest_framework import serializers
 
 
 def home(request):
@@ -68,21 +66,25 @@ class CreateBookView(generics.CreateAPIView):
     serializer_class = BookSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,many=True)
-        print("serializer data----------",serializer)
+        data = request.data
+        name_list = data.get("name").split(",")
+        author_list = data.get("author").split(",")
+        image_list = request.FILES.getlist("image")
+        if (len(name_list) == len(author_list) == len(image_list)) is False:
+            raise serializers.ValidationError("Invalid payload")
+        book_length = len(name_list)
+        book_data = []
+        for length in range(book_length):
+            book_data.append(
+                {
+                    "name": name_list[length],
+                    "author": [author_list[length]],
+                    "image": image_list[length]
+                }
+            )
+        serializer = self.get_serializer(data=book_data, many=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        # breakpoint()
-        print("serializer-----------------------------------",serializer.data)
-        name_list = serializer.initial_data.get("name").split(",")
-        author_list = serializer.initial_data.get("author").split(",")
-        image_list = request.FILES.getlist("image")
-
-        for data in range(len(name_list)):
-            author_obj =Author.objects.get(id=author_list[data])
-            print("author_obj-------------------",author_obj)
-            book = Book.objects.create(name=name_list[data],image=image_list[data])
-            book.author.add(author_obj)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

@@ -11,7 +11,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    image= serializers.ListField(child=serializers.ImageField())
+
     class Meta:
         model = Book
         fields = ["id","image","name","author","publication_date","rating"]
@@ -20,19 +20,6 @@ class BookSerializer(serializers.ModelSerializer):
         if value < 0 or value >= 10:
             raise serializers.ValidationError("rating should be between 0 to 10 ")
         return value
-
-    def to_representation(self, instance):
-        representation = super(BookSerializer, self).to_representation(instance)
-        author_list = []
-        for author in instance.author.all():
-            author_list.append(author.name)
-            representation['author'] = author_list
-        return representation
-
-    def create(self, validated_data):
-        books = [Book(**item) for item in validated_data]
-        print("book0000000000000-----------------",books)
-        return Book.objects.bulk_create(books)
 
 
 class LibrarySerializer(serializers.ModelSerializer):
