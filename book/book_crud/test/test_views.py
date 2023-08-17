@@ -1,26 +1,34 @@
-import pytest
-from  rest_framework.test import APIClient
+from django.test import TestCase
+from rest_framework.test import APIClient
 from rest_framework import status
-from book_crud.models import Book
+from book_create.models import Book
 
-@pytest.mark.django_db
-def bulk_create_book():
-    client = APIClient()
-    url = "http://127.0.0.1:8000/bulk_create_book/"
+class CreateBookViewTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
 
-    payload = [
-        {
-            "name": "Python Pocket Reference",
-            "author": 2,
-            "image": "/home/ashishv/Djanog DRF bulk create/DRF_book/book/media/images/51HuYEwAl2L._SX258_BO1204203200_.jpg"
-        },
-        {
-            "name": "Python Crash Course",
-            "author": 2,
-            "image": "/home/ashishv/Djanog DRF bulk create/DRF_book/book/media/images/51HuYEwAl2L._SX258_BO1204203200_.jpg"
+    def test_bulk_create_books(self):
+        data = {
+            "name": "Book1,Book2,Book3",
+            "author": "1,2,3",
+            # Add image data if needed
         }
-    ]
-    response = client.post(url,payload)
 
-    assert response.status_code == status.HTTP_201_CREATED
-    assert Book.objects.count() == 2
+        response = self.client.post('/path/to/your/endpoint/', data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Book.objects.count(), 3)  # Check if 3 books were created
+
+    def test_invalid_payload(self):
+        data = {
+            "name": "Book1,Book2",
+            "author": "1,2,3",
+            # Add image data if needed
+        }
+
+        response = self.client.post('/path/to/your/endpoint/', data)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Book.objects.count(), 0)  # No books should be created
+
+    # Add more test cases if needed...
