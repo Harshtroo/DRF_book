@@ -66,26 +66,29 @@ class CreateBookView(generics.CreateAPIView):
     serializer_class = BookSerializer
 
     def create(self, request, *args, **kwargs):
-        data = request.data
-        name_list = data.get("name").split(",")
-        author_list = data.get("author").split(",")
-        image_list = request.FILES.getlist("image")
-        if (len(name_list) == len(author_list) == len(image_list)) is False:
-            raise serializers.ValidationError("Invalid payload")
-        book_length = len(name_list)
-        book_data = []
-        for length in range(book_length):
-            book_data.append(
-                {
-                    "name": name_list[length],
-                    "author": [author_list[length]],
-                    "image": image_list[length]
-                }
-            )
-        serializer = self.get_serializer(data=book_data, many=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        try:
+            data = request.data
+            name_list = data.get("name").split(",")
+            author_list = data.get("author").split(",")
+            image_list = request.FILES.getlist("image")
+            if (len(name_list) == len(author_list) == len(image_list)) is False:
+                raise serializers.ValidationError("Invalid payload")
+            book_length = len(name_list)
+            book_data = []
+            for length in range(book_length):
+                book_data.append(
+                    {
+                        "name": name_list[length],
+                        "author": [author_list[length]],
+                        "image": image_list[length]
+                    }
+                )
+            serializer = self.get_serializer(data=book_data, many=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as error:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
