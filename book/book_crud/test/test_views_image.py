@@ -29,7 +29,8 @@ class TestCreateBulkBook:
                     "rb"),
             ]
         }
-
+        # Book.objects.create(data)
+        # assert Book.objects.count() == 2
         response = self.client.post(self.url, data, format='multipart')
         assert response.status_code == status.HTTP_201_CREATED
         assert Book.objects.count() == 2
