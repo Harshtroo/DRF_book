@@ -1,0 +1,5 @@
+drf_env/*
+__pycache__
+.idea/
+
+/book/db.sqlite3

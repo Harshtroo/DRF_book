@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% for message in messages %}
+<div class="alert {{ message.tags }} alert-dismissible" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+
+{% csrf_token %}
+
+<script src="{% static 'js/base.js' %}"></script>
+
+{% endblock %}

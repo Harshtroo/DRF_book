@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<section class="h-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card rounded-3">
+          <div class="card-body p-4 p-md-5">
+            <div class="form-outline datepicker">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" align="center">Create User</h3>
+
+              <form class="px-md-2" method="POST" id="my-create-user">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Username</label>
+                  <input type="text" class="form-control" id="username">
+                </div>
+
+                <div class="form-outline mb-4">
+                  <div class="form-outline datepicker">
+                    <label class="form-label">email</label>
+                    <input type="email" class="form-control" id="email">
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label">password</label>
+                  <input type="password" class="form-control" id="password">
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label">phone_number</label>
+                  <input type="number" class="form-control" id="phone_number">
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg mb-1" >Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{% static 'js/base.js' %}"></script>
+<script src="{% static 'js/create_user.js' %}"></script>
+
+{% endblock %}
